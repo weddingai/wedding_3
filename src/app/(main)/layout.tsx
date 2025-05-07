@@ -51,11 +51,8 @@ export default function MainLayout({
   const [expandedCity, setExpandedCity] = useState<number | null>(null);
   // 검색 관련 상태
   const [searchQuery, setSearchQuery] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const handleTypeMenuClick = (type: string) => {
-    router.push(`/search?type=${encodeURIComponent(type)}`);
-  };
+  // 드롭다운 상태를 number | false로 변경
+  const [isDropdownOpen, setIsDropdownOpen] = useState<number | false>(false);
 
   // 페이지가 변경될 때마다 검색어 초기화
   useEffect(() => {
@@ -115,6 +112,7 @@ export default function MainLayout({
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     setSearchQuery("");
+    setIsMenuOpen(false);
     if (!searchQuery.trim()) return;
     // 검색 결과 페이지로 이동
     router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
@@ -125,65 +123,10 @@ export default function MainLayout({
       <StructuredDataScript />
 
       {/* 헤더 */}
-      <header className="sticky top-0 z-40 w-full bg-[#EDE1D7]">
+      <header className="sticky top-0 z-40 w-full bg-[#262626]">
+        {/* 첫 번째 줄: 로고 + 검색창 */}
         <div className="flex items-center justify-between h-16 max-w-screen-xl mx-auto px-6">
-          {/* 좌측 고정 메뉴 */}
-          <nav className="hidden md:flex items-center text-[13px] text-[#493D32] font-medium">
-            <div
-              className="relative"
-              onMouseEnter={() => setIsDropdownOpen(true)}
-              onMouseLeave={() => setIsDropdownOpen(false)}
-            >
-              <button
-                type="button"
-                className="h-16 flex items-center px-3 hover:text-[#9E856F] transition-colors"
-                style={{ fontWeight: 500 }}
-              >
-                지역별
-              </button>
-              {isDropdownOpen && (
-                <div className="fixed left-0 top-16 w-screen bg-white border-t border-gray-200 shadow-lg z-50 px-8 py-8">
-                  <div className="flex flex-wrap gap-x-8 gap-y-6 max-w-screen-xl mx-auto">
-                    {mainCities.map((city) => (
-                      <div key={city.id} className="min-w-[60px] mb-2">
-                        <div className="mb-3 font-bold text-[#493D32] text-lg">
-                          {city.name}
-                        </div>
-                        {subCities[city.id] &&
-                          subCities[city.id].length > 0 && (
-                            <div className="flex flex-col gap-1">
-                              {subCities[city.id].map((subCity) => (
-                                <button
-                                  key={subCity.id}
-                                  onClick={() =>
-                                    handleSubCityClick(city.id, subCity.id)
-                                  }
-                                  className="text-left text-[#6d6253] hover:text-[#9E856F] text-base"
-                                >
-                                  {subCity.name}
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-            {["웨딩", "웨딩홀", "허니문", "스드메", "기타"].map((label) => (
-              <button
-                key={label}
-                type="button"
-                className="h-16 flex items-center px-3 hover:text-[#9E856F] transition-colors"
-                style={{ fontWeight: 500 }}
-                onClick={() => handleTypeMenuClick(label)}
-              >
-                {label}
-              </button>
-            ))}
-          </nav>
-          {/* 중앙 로고 */}
+          {/* 좌측 로고 */}
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0">
               <span className="text-2xl font-black text-[#9E856F]">
@@ -200,11 +143,17 @@ export default function MainLayout({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="박람회 이름으로 검색"
-                  className="w-full py-2 px-4 pr-10 border-b-2 bg-[#EDE1D7] border-[#493D32] focus:outline-none placeholder:text-sm placeholder:text-[#A09183]"
+                  className="w-full py-2 px-4 pr-10 border-b-2 bg-[#262626] border-[#FFFFFF] focus:outline-none placeholder:text-sm placeholder:text-[#898989] text-white caret-white"
+                  onFocus={(e) =>
+                    e.target.classList.add("placeholder-transparent")
+                  }
+                  onBlur={(e) =>
+                    e.target.classList.remove("placeholder-transparent")
+                  }
                 />
                 <button
                   type="submit"
-                  className="absolute right-0 top-1/2 transform -translate-y-1/2 px-3 text-[#493D32]"
+                  className="absolute right-0 top-1/2 transform -translate-y-1/2 px-3 text-white"
                   aria-label="검색"
                 >
                   <Search className="h-5 w-5" />
@@ -216,13 +165,14 @@ export default function MainLayout({
           <div className="flex md:hidden items-center ml-2 flex-shrink-0">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 md:hidden rounded-full hover:bg-gray-100"
+              className="p-2 md:hidden rounded-full text-white"
               aria-label="메뉴"
             >
               <Menu className="w-5 h-5" />
             </button>
           </div>
         </div>
+
         {/* 모바일 메뉴 - header 태그 안에 위치 */}
         {isMenuOpen && (
           <nav className="fixed top-16 left-0 w-full z-50 bg-white border-t border-gray-200 shadow-lg md:hidden py-4 px-4 space-y-2">
@@ -289,6 +239,51 @@ export default function MainLayout({
             ))}
           </nav>
         )}
+
+        {/* 두 번째 줄: 중앙 고정 메뉴 */}
+        <nav className="hidden md:flex items-center text-[13px] text-[#FFFFFF] font-normal max-w-screen-xl mx-auto px-6 h-12">
+          {mainCities.map((city) => (
+            <div
+              key={city.id}
+              className="relative h-12 flex items-center"
+              onMouseEnter={() => setIsDropdownOpen(city.id)}
+              onMouseLeave={() => setIsDropdownOpen(false)}
+            >
+              <button
+                type="button"
+                className={`h-12 flex items-center px-3 hover:text-[#9E856F] transition-colors ${
+                  isDropdownOpen === city.id ? "text-[#9E856F]" : ""
+                }`}
+                style={{ fontWeight: 500 }}
+              >
+                {city.name}
+              </button>
+              {isDropdownOpen === city.id && (
+                <div className="absolute left-0 top-12 min-w-[140px] bg-white border-t border-gray-200 shadow-lg z-50 px-4 py-4">
+                  {subCities[city.id] && subCities[city.id].length > 0 ? (
+                    <div className="flex flex-col gap-1">
+                      {subCities[city.id].map((subCity) => (
+                        <button
+                          key={subCity.id}
+                          onClick={() =>
+                            handleSubCityClick(city.id, subCity.id)
+                          }
+                          className="text-left text-[#6d6253] hover:text-[#9E856F] text-base py-1"
+                        >
+                          {subCity.name}
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-[#A09183] text-sm">
+                      서브 카테고리 없음
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </nav>
       </header>
 
       {/* children 렌더링 */}
