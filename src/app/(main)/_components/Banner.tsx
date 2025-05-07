@@ -34,8 +34,9 @@ export default function Banner() {
   ];
 
   return (
-    <section className="py-12 bg-[#FFF8F2]">
+    <section className="py-16">
       <div className="max-w-screen-xl mx-auto px-4">
+        {/* 인기 서비스 섹션 */}
         <h2 className="text-2xl md:text-3xl font-normal text-center text-[#493D32] mb-7">
           인기 서비스
         </h2>

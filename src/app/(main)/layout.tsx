@@ -119,7 +119,7 @@ export default function MainLayout({
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FFF8F2]">
+    <div className="flex flex-col min-h-screen bg-[#FFFFFF]">
       <StructuredDataScript />
 
       {/* 헤더 */}
@@ -287,7 +287,7 @@ export default function MainLayout({
       </header>
 
       {/* children 렌더링 */}
-      <main className="flex-1 w-full max-w-screen-xl mx-auto px-4 py-8 bg-[#FFF8F2]">
+      <main className="flex-1 w-full max-w-screen-xl mx-auto bg-[#FFFFFF]">
         {children}
       </main>
 
