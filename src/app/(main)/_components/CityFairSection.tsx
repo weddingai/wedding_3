@@ -66,12 +66,11 @@ export default function CityFairSection({ city }: CityFairSectionProps) {
 
   if (error) {
     return (
-      <section id={`city-${city.id}`} className="py-16 bg-[#FAF7F2]">
+      <section id={`city-${city.id}`} className="py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-2 text-left">
             {city.name} 웨딩 박람회
           </h2>
-          <div className="border-b-2 border-dotted border-[#CFC6B6] mb-10 w-full" />
           <div className="text-center py-8 text-gray-600">{error}</div>
         </div>
       </section>
@@ -79,23 +78,13 @@ export default function CityFairSection({ city }: CityFairSectionProps) {
   }
 
   return (
-    <section id={`city-${city.id}`} className="py-16 bg-[#FFF8F2]">
+    <section id={`city-${city.id}`} className="py-16">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl font-medium mb-4 text-left text-[#493D32]">
+        <h2 className="w-full bg-[#4D4D4D] text-white text-lg md:text-xl font-black text-left mb-8 py-8 px-6 rounded-xl">
           {city.name} 웨딩 박람회
         </h2>
-        <div
-          className="mb-10 w-full"
-          style={{
-            borderBottomWidth: 2,
-            borderBottomStyle: "dashed",
-            borderBottomColor: "#493D32",
-            borderImage:
-              "repeating-linear-gradient(to right, #493D32 0 6px, transparent 6px 12px) 100% 1",
-          }}
-        />
         {fairs.length === 0 && !isLoading ? (
-          <div className="text-center py-10 text-[#493D32] bg-[#FFF8F2]">
+          <div className="text-center py-10 text-[#493D32]">
             현재 예정된 웨딩 박람회가 없습니다.
           </div>
         ) : (
