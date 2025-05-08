@@ -28,7 +28,7 @@ export default function Home() {
       <Image
         src="/images/MainBanner.jpeg"
         alt="메인 배너"
-        className="w-full h-auto mb-10 object-cover"
+        className="w-full h-auto mb-10 object-cover hidden md:block"
         width={2150}
         height={672}
       />
