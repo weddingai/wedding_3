@@ -61,7 +61,7 @@ export default function SearchResults() {
         {query
           ? `"${query}"에 대한 검색 결과 ${totalCount}건`
           : type
-          ? `${type} 타입의 박람회 ${totalCount}건`
+          ? `${type} 박람회 ${totalCount}건`
           : "검색 결과가 없습니다."}
       </p>
 
@@ -76,9 +76,9 @@ export default function SearchResults() {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex flex-col gap-8 items-center">
             {searchResults.map((fair) => (
-              <div key={fair.id}>
+              <div key={fair.id} className="w-full max-w-[900px]">
                 <FairCard fair={fair} />
               </div>
             ))}
