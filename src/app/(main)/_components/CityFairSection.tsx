@@ -80,7 +80,7 @@ export default function CityFairSection({ city }: CityFairSectionProps) {
   return (
     <section id={`city-${city.id}`} className="py-16">
       <div className="container mx-auto px-4">
-        <h2 className="w-full bg-[#4D4D4D] text-white text-lg md:text-xl font-black text-left mb-8 py-8 px-6 rounded-xl">
+        <h2 className="w-full bg-[#4D4D4D] text-white text-lg md:text-xl font-black text-left mb-8 py-4 md:py-6 lg:py-8 px-6 rounded-xl">
           {city.name} 웨딩 박람회
         </h2>
         {fairs.length === 0 && !isLoading ? (
@@ -89,11 +89,12 @@ export default function CityFairSection({ city }: CityFairSectionProps) {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="w-full justify-items-center">
               {fairs.map((fair, index) => (
                 <div
                   key={fair.id}
                   ref={index === fairs.length - 1 ? lastFairRef : undefined}
+                  className="block h-full max-w-[900px] w-full mb-10"
                 >
                   <FairCard fair={fair} />
                 </div>

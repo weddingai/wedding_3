@@ -14,62 +14,48 @@ function formatMMDD(dateStr: string) {
 }
 
 export const FairCard = ({ fair }: FairCardProps) => {
-  const imgWidth = 640;
-  const imgHeight = 274;
-
   return (
-    <a
-      href={fair.redirect_url}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ filter: "drop-shadow(3px 3px 4px #BBBBBB)" }}
-      className="block h-full"
-    >
-      <div
-        className="bg-[#FFFEF8] border p-6 md:p-7 min-h-[420px] flex flex-col"
-        style={{
-          clipPath:
-            "polygon(24px 0, calc(100% - 24px) 0, 100% 24px, 100% calc(100% - 24px), calc(100% - 24px) 100%, 24px 100%, 0 calc(100% - 24px), 0 24px)",
-        }}
-      >
-        <div className="overflow-hidden mb-4">
-          <div
-            className="w-full bg-gray-50 overflow-hidden"
-            style={{ aspectRatio: `${imgWidth}/${imgHeight}` }}
-          >
+    <a href={fair.redirect_url} target="_blank" rel="noopener noreferrer">
+      <div className="border border-[#E2DFDB] rounded-2xl overflow-hidden w-full shadow-lg">
+        <div className="flex flex-col md:flex-row w-full">
+          {/* 좌측 이미지 */}
+          <div className="w-full md:w-3/5 h-auto relative flex-shrink-0">
             <Image
               src={fair.image_url}
               alt={fair.title}
-              width={imgWidth}
-              height={imgHeight}
-              className="w-full h-full object-cover rounded-lg transition-transform duration-300"
+              className="w-full h-auto rounded-t-2xl md:rounded-2xl md:max-h-[230px]"
+              width={700}
+              height={300}
             />
           </div>
+          {/* 우측 정보 */}
+          <div className="flex flex-col justify-between p-6 md:p-8">
+            <div>
+              <div className="text-xs text-[#A89B87] mb-1 font-medium">
+                {fair.category1} &gt; {fair.category2}
+              </div>
+              <h3 className="text-2xl font-extrabold text-[#262626] mb-2 line-clamp-1">
+                {fair.title}
+              </h3>
+              <div className="flex items-center text-base text-[#262626] font-normal mb-1">
+                <Calendar className="w-4 h-4 mr-2 text-[#A89B87]" />
+                {formatMMDD(fair.start_date)} ~ {formatMMDD(fair.end_date)}
+              </div>
+              <div className="flex items-start text-sm text-[#262626] mb-4">
+                <MapPin className="w-4 h-4 mr-2 flex-shrink-0 text-[#A89B87]" />
+                <span className="line-clamp-2">{fair.address}</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="text-xs text-[#A89B87] mb-5">
-          {fair.category1} &gt; {fair.category2}
-        </div>
-        <div className="mb-2">
-          <span className="inline-block bg-gray-100 rounded-full px-2 py-1 text-xs text-gray-700">
-            {fair.type || "전시"}
-          </span>
-        </div>
-        <h3 className="text-base font-semibold mb-3 text-[#493D32] line-clamp-1">
-          {fair.title}
-        </h3>
-        <div className="flex items-center mb-3 text-sm text-[#493D32] font-normal">
-          <Calendar className="w-4 h-4 mr-1 text-[#A89B87]" />
-          {formatMMDD(fair.start_date)} ~ {formatMMDD(fair.end_date)}
-        </div>
-        <div className="flex items-start mb-5 min-h-[2.5rem]">
-          <MapPin className="w-4 h-4 mt-1 mr-1 flex-shrink-0 text-[#A89B87]" />
-          <span className="text-sm text-[#493D32] font-normal line-clamp-2 overflow-hidden">
-            {fair.address}
-          </span>
-        </div>
-        <div className="border-b border-dashed border-black mb-5" />
-        <div className="bg-[#F7EEE6] text-[#493D32] text-sm px-4 py-3 rounded-lg h-[4rem] line-clamp-2">
-          {fair.promotion || fair.description}
+        {/* 박람회 소개 */}
+        <div className="text-[#493D32] text-base px-8 py-5 rounded-b-2xl flex flex-col items-start gap-3">
+          <span className="font-bold min-w-[80px]">박람회 소개</span>
+          <div className="w-full bg-[#F7EEE6] rounded-xl px-4 py-3">
+            <span className="whitespace-pre-line leading-relaxed">
+              {fair.promotion || fair.description}
+            </span>
+          </div>
         </div>
       </div>
     </a>
