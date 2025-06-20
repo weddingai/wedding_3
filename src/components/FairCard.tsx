@@ -15,7 +15,11 @@ function formatMMDD(dateStr: string) {
 
 export const FairCard = ({ fair }: FairCardProps) => {
   return (
-    <a href={fair.redirect_url} target="_blank" rel="noopener noreferrer">
+    <a
+      href={`${fair.redirect_url}wedigging365`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <div className="border border-[#E2DFDB] rounded-2xl overflow-hidden w-full shadow-lg">
         <div className="flex flex-col md:flex-row w-full">
           {/* 좌측 이미지 */}
